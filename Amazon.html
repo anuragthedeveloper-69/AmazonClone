@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Clone</title>
+  <style>
+    * {margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif;}
+    body {background-color:#EAEDED; color:#111;}
+
+    header {background-color:#131921; color:white; padding:10px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:10;}
+    header .logo {font-size:1.5rem; font-weight:bold; color:#FF9900;}
+    header input[type="text"] {width:50%; padding:8px; border:none; border-radius:4px;}
+    header button {padding:8px 12px; background:#febd69; border:none; border-radius:4px; cursor:pointer;}
+
+    nav {background-color:#232F3E; padding:10px; color:white; display:flex; flex-wrap:wrap; gap:10px; justify-content:center;}
+    nav a {color:white; text-decoration:none; padding:5px 10px;}
+    nav a:hover {background:#37475A; border-radius:4px;}
+
+    .hero {background:url('https://m.media-amazon.com/images/I/61lwJy4B8PL._SX3000_.jpg') center/cover no-repeat; height:350px; display:flex; align-items:end; justify-content:center;}
+    .hero button {margin-bottom:20px; padding:10px 20px; background:#febd69; border:none; border-radius:4px; font-size:1rem; cursor:pointer;}
+
+    .products {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; padding:20px;}
+    .product {background:white; padding:15px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); transition:transform 0.2s;}
+    .product:hover {transform:scale(1.03);}
+    .product img {width:100%; height:200px; object-fit:cover; border-radius:6px;}
+    .product h3 {margin:10px 0; font-size:1rem;}
+    .product p {color:#007600; font-weight:bold;}
+    .product button {margin-top:10px; background:#FFA41C; color:white; border:none; padding:8px 12px; border-radius:4px; cursor:pointer;}
+
+    footer {background:#131921; color:white; text-align:center; padding:20px; margin-top:20px;}
+    footer a {color:#febd69; text-decoration:none; margin:0 10px;}
+
+    @media (max-width:600px){
+      header input[type="text"]{width:40%;}
+      .hero{height:200px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">amazon<span style="color:white;">.clone</span></div>
+    <input type="text" id="searchBar" placeholder="Search products...">
+    <button onclick="searchProducts()">Search</button>
+    <div>🛒 <span id="cartCount">0</span></div>
+  </header>
+
+  <nav>
+    <a href="#">Today's Deals</a>
+    <a href="#">Customer Service</a>
+    <a href="#">Registry</a>
+    <a href="#">Gift Cards</a>
+    <a href="#">Sell</a>
+  </nav>
+
+  <section class="hero">
+    <button>Shop now</button>
+  </section>
+
+  <section class="products" id="productList">
+    <!-- Products will load here dynamically -->
+  </section>
+
+  <footer>
+    <p>Back to top</p>
+    <p>
+      <a href="#">Conditions of Use</a> ·
+      <a href="#">Privacy Notice</a> ·
+      <a href="#">Your Ads Privacy Choices</a>
+    </p>
+    <p>© 2025 Amazon Clone, made for learning purposes.</p>
+  </footer>
+
+  <script>
+    const products = [
+      {id:1, title:'Wireless Headphones', price:129.99, image:'https://m.media-amazon.com/images/I/61CGHv6kmWL._AC_SL1500_.jpg'},
+      {id:2, title:'Smart TV 55 inch 4K', price:599.00, image:'https://m.media-amazon.com/images/I/71m0Nn4xtIL._AC_SL1500_.jpg'},
+      {id:3, title:'Espresso Coffee Maker', price:249.50, image:'https://m.media-amazon.com/images/I/61E3B8I4QmL._AC_SL1500_.jpg'},
+      {id:4, title:'Men Running Shoes', price:79.99, image:'https://m.media-amazon.com/images/I/81xTx-L9sIL._AC_UL1500_.jpg'},
+      {id:5, title:'Smartphone 128GB', price:399.00, image:'https://m.media-amazon.com/images/I/61p2hRRaYSL._AC_SL1500_.jpg'}
+    ];
+
+    let cartCount = 0;
+
+    function renderProducts(list){
+      const container = document.getElementById('productList');
+      container.innerHTML = '';
+      list.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'product';
+        div.innerHTML = `
+          <img src="${p.image}" alt="${p.title}">
+          <h3>${p.title}</h3>
+          <p>$${p.price.toFixed(2)}</p>
+          <button onclick="addToCart(${p.id})">Add to Cart</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function searchProducts(){
+      const query = document.getElementById('searchBar').value.toLowerCase();
+      const filtered = products.filter(p => p.title.toLowerCase().includes(query));
+      renderProducts(filtered);
+    }
+
+    function addToCart(id){
+      cartCount++;
+      document.getElementById('cartCount').textContent = cartCount;
+      alert('Added to cart!');
+    }
+
+    window.onload = () => renderProducts(products);
+  </script>
+</body>
+</html>
